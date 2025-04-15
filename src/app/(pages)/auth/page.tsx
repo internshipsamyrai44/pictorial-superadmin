@@ -1,9 +1,13 @@
+'use client'
 
- const Auth =  () => {
+import s from './index.module.css'
+import { SignIn} from "@/components/sign-in/SignIn"
+
+const Auth = () => {
   return (
-   <div>
-
-   </div>
+    <div className={s.container}>
+      <SignIn/>
+    </div>
   )
 }
 
