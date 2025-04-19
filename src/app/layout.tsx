@@ -1,20 +1,23 @@
-import type {Metadata} from "next";
-import "./globals.css";
-import {Header} from "@/widgets/header/Header"
+import type { Metadata } from 'next';
+import './globals.css';
+import { Header } from '@/widgets/header/Header';
+import { ApolloWrapper } from '@/lib/apollo/apolloWrapper';
+import React from 'react';
 
 export const metadata: Metadata = {
-  title: "Pictorial SuperAdmin",
-  description: "Pictorial SuperAdmin",
+  title: 'Pictorial SuperAdmin',
+  description: 'Pictorial SuperAdmin'
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-    <body>
-    <Header />
-    <main>{children}</main>
-
-    </body>
+      <body>
+        <ApolloWrapper>
+          <Header />
+          {children}
+        </ApolloWrapper>
+      </body>
     </html>
   );
 }
