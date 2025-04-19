@@ -29,7 +29,7 @@ export const SignIn = () => {
           Cookies.set('accessToken', 'true', {
             path: '/'
           });
-          router.push('/');
+          router.push('/users');
         }
       })
       .catch((err) => {
