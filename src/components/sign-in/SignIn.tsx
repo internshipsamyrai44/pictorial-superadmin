@@ -27,9 +27,9 @@ export const SignIn = () => {
       .then((res) => {
         if (res.data.loginAdmin.logged) {
           Cookies.set('accessToken', 'true', {
-            path: '/users'
+            path: '/'
           });
-          router.push('/');
+          router.push('/users');
         }
       })
       .catch((err) => {
