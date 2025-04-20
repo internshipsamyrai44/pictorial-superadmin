@@ -1,8 +1,9 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
+import { PATH } from '@/shared/consts/PATH';
 
 export function middleware(request: NextRequest) {
-  const publicPaths = ['login'];
+  const publicPaths = [PATH.AUTH];
   const { pathname } = request.nextUrl;
 
   if (publicPaths.some((path) => pathname.startsWith(`/${path}`))) {
