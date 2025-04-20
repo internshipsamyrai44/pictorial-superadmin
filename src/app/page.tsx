@@ -1,4 +1,4 @@
-import s from '@/app/(pages)/users/index.module.css';
+import s from '@/app/(pages)/login/index.module.css';
 
 export default function Home() {
   return (

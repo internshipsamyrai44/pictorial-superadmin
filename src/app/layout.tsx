@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import './globals.css';
+import './globals.scss';
 import { Header } from '@/widgets/header/Header';
 import { ApolloWrapper } from '@/lib/apollo/apolloWrapper';
 import React from 'react';
