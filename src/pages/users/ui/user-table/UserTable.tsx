@@ -1,11 +1,11 @@
 'use client';
 
-import { User } from '../../types';
 import s from './UserTable.module.scss';
 import { UserRow } from './user-row';
 import { UserTableLoading } from './UserTableLoading';
 import { UserTableError } from './UserTableError';
 import { UserTableEmpty } from './UserTableEmpty';
+import { User } from '@/entities/user/types';
 
 type UserTableProps = {
   users: User[];

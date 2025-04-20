@@ -3,6 +3,10 @@ export type User = {
   userName: string;
   email: string;
   createdAt: string;
+  profile: {
+    firstName: string;
+    lastName: string;
+  };
   userBan?: {
     reason: string;
   };

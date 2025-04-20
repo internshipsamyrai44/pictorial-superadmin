@@ -20,12 +20,7 @@ export const PaginationPanel = ({
 }: PaginationPanelProps) => {
   return (
     <div className={s.paginationContainer}>
-      <Pagination
-        currentPage={currentPage}
-        onChangePage={onChangePage}
-        pageSize={Number(pageSize)}
-        totalCount={totalCount}
-      />
+      <Pagination currentPage={currentPage} onChangePage={onChangePage} pageSize={+pageSize} totalCount={totalCount} />
       <SelectContainer content={['Показать', 'на странице']}>
         <Select value={pageSize} onValueChange={onChangePageSize}>
           <SelectItem value="1">1</SelectItem>

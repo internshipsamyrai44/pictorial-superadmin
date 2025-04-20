@@ -1,6 +1,6 @@
 'use client';
 
-import { User } from '../../../types';
+import { User } from '@/entities/user/types';
 import { UserActionsMenu } from './UserActionsMenu';
 
 type UserRowProps = {
@@ -14,9 +14,11 @@ export const UserRow = ({ user, onDeleteUser, onToggleBlockUser, onMoreInfo }: U
   return (
     <tr>
       <td>{user.id}</td>
-      <td>{user.username}</td>
-      <td>{user.profileLink}</td>
-      <td>{user.dateAdded}</td>
+      <td>
+        {user.profile.firstName} {user.profile.lastName}
+      </td>
+      <td>{user.userName}</td>
+      <td>{new Date(user.createdAt).toLocaleDateString()}</td>
       <td>
         <UserActionsMenu
           user={user}

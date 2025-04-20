@@ -22,9 +22,19 @@ export const GET_USERS = gql`
         userName
         email
         createdAt
+        profile {
+          firstName
+          lastName
+        }
         userBan {
           reason
         }
+      }
+      pagination {
+        pagesCount
+        page
+        pageSize
+        totalCount
       }
     }
   }
