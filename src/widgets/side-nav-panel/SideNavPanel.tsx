@@ -45,7 +45,7 @@ export const SideNavPanel = ({ className }: SideNavBar) => {
   ];
 
   return (
-    <Sidebar className={`${className} sidebar-height`}>
+    <Sidebar className={className}>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent>

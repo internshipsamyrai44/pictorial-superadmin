@@ -6,7 +6,7 @@ export const AuthorizedLayout = ({ children }: PropsWithChildren) => {
   return (
     <div className={s.container}>
       <SideNavPanel className={s.sideNavPanel} />
-      {children}
+      <div className={s.content}>{children}</div>
     </div>
   );
 };
