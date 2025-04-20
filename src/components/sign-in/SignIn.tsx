@@ -3,7 +3,7 @@ import s from './SignIn.module.css';
 import { gql, useMutation } from '@apollo/client';
 import Cookies from 'js-cookie';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import React from 'react';
 
 export const LOGIN_ADMIN = gql`
   mutation LoginAdmin($email: String!, $password: String!) {
@@ -18,6 +18,8 @@ export const SignIn = () => {
   const password = 'admin';
   const [LoginAdmin, { loading, error }] = useMutation(LOGIN_ADMIN);
   const router = useRouter();
+  const basicToken = btoa(`${email}:${password}`);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -26,7 +28,7 @@ export const SignIn = () => {
     })
       .then((res) => {
         if (res.data.loginAdmin.logged) {
-          Cookies.set('accessToken', 'true', {
+          Cookies.set('authToken', basicToken, {
             path: '/'
           });
           router.push('/users');
