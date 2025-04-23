@@ -2,10 +2,7 @@ import { gql } from '@apollo/client';
 
 export const DELETE_USER = gql`
   mutation DeleteUser($userId: Int!) {
-    deleteUser(userId: $userId) {
-      success
-      message
-    }
+    removeUser(userId: $userId)
   }
 `;
 

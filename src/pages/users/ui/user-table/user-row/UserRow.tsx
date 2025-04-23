@@ -5,12 +5,11 @@ import { UserActionsMenu } from './UserActionsMenu';
 
 type UserRowProps = {
   user: User;
-  onDeleteUser: (id: number) => void;
   onToggleBlockUser: (id: number) => void;
   onMoreInfo: (id: number) => void;
 };
 
-export const UserRow = ({ user, onDeleteUser, onToggleBlockUser, onMoreInfo }: UserRowProps) => {
+export const UserRow = ({ user, onToggleBlockUser, onMoreInfo }: UserRowProps) => {
   return (
     <tr>
       <td>{user.id}</td>
@@ -20,12 +19,7 @@ export const UserRow = ({ user, onDeleteUser, onToggleBlockUser, onMoreInfo }: U
       <td>{user.userName}</td>
       <td>{new Date(user.createdAt).toLocaleDateString()}</td>
       <td>
-        <UserActionsMenu
-          user={user}
-          onDeleteUser={onDeleteUser}
-          onToggleBlockUser={onToggleBlockUser}
-          onMoreInfo={onMoreInfo}
-        />
+        <UserActionsMenu user={user} onToggleBlockUser={onToggleBlockUser} onMoreInfo={onMoreInfo} />
       </td>
     </tr>
   );

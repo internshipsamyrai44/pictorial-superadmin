@@ -11,12 +11,11 @@ type UserTableProps = {
   users: User[];
   loading: boolean;
   error: any;
-  onDeleteUser: (id: number) => void;
   onToggleBlockUser: (id: number) => void;
   onMoreInfo: (id: number) => void;
 };
 
-export const UserTable = ({ users, loading, error, onDeleteUser, onToggleBlockUser, onMoreInfo }: UserTableProps) => {
+export const UserTable = ({ users, loading, error, onToggleBlockUser, onMoreInfo }: UserTableProps) => {
   return (
     <table className={s.table}>
       <thead>
@@ -37,13 +36,7 @@ export const UserTable = ({ users, loading, error, onDeleteUser, onToggleBlockUs
           <UserTableEmpty />
         ) : (
           users.map((user) => (
-            <UserRow
-              key={user.id}
-              user={user}
-              onDeleteUser={onDeleteUser}
-              onToggleBlockUser={onToggleBlockUser}
-              onMoreInfo={onMoreInfo}
-            />
+            <UserRow key={user.id} user={user} onToggleBlockUser={onToggleBlockUser} onMoreInfo={onMoreInfo} />
           ))
         )}
       </tbody>
