@@ -1,7 +1,7 @@
 'use client';
 
 import s from './index.module.css';
-import { SignIn } from '@/components/sign-in/SignIn';
+import { SignIn } from '@/pages/auth/ui/SignIn';
 
 const Login = () => {
   return (
