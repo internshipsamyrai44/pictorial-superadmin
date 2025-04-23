@@ -1,42 +1,18 @@
 import { Button, Card, Input, Typography } from '@internshipsamyrai44-ui-kit/components-lib';
 import s from './SignIn.module.css';
-import { gql, useMutation } from '@apollo/client';
-import Cookies from 'js-cookie';
-import { useRouter } from 'next/navigation';
-import React from 'react';
-
-export const LOGIN_ADMIN = gql`
-  mutation LoginAdmin($email: String!, $password: String!) {
-    loginAdmin(email: $email, password: $password) {
-      logged
-    }
-  }
-`;
+import { useLogin } from '@/pages/auth/hooks/useLogin';
 
 export const SignIn = () => {
   const email = 'admin@gmail.com';
   const password = 'admin';
-  const [LoginAdmin, { loading, error }] = useMutation(LOGIN_ADMIN);
-  const router = useRouter();
-  const basicToken = btoa(`${email}:${password}`);
+
+  const { login, loading, error } = useLogin();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    LoginAdmin({
-      variables: { email, password }
-    })
-      .then((res) => {
-        if (res.data.loginAdmin.logged) {
-          Cookies.set('authToken', basicToken, {
-            path: '/'
-          });
-          router.push('/users');
-        }
-      })
-      .catch((err) => {
-        console.error('Ошибка при входе', err);
-      });
+    login(email, password).catch((err) => {
+      console.error('Ошибка при входе', err);
+    });
   };
 
   return (

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { FilterOptions } from '../ui/search-panel/SearchPanel';
 import { GET_USERS, DELETE_USER, BLOCK_USER } from '@/entities/user/api';
 import { UsersResponse, DeleteUserResponse, BlockUserResponse } from '@/entities/user/types';
+
 export const useUsers = () => {
   const [pageSize, setPageSize] = useState('10');
   const [currentPage, setCurrentPage] = useState(1);
@@ -49,15 +50,11 @@ export const useUsers = () => {
   };
 
   const handleDeleteUser = (id: number) => {
-    if (window.confirm('Вы уверены, что хотите удалить этого пользователя?')) {
-      deleteUser({
-        variables: {
-          userId: id
-        }
-      }).catch((err) => {
-        console.error('Ошибка при удалении пользователя:', err);
-      });
-    }
+    deleteUser({
+      variables: {
+        userId: id
+      }
+    });
   };
 
   const handleUnbanUser = (id: number) => {

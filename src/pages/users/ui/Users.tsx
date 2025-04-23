@@ -19,7 +19,6 @@ export const Users = () => {
     handlePageSizeChange,
     handleSearchChange,
     handleFilterChange,
-    handleDeleteUser,
     handleUnbanUser,
     handleMoreInfo
   } = useUsers();
@@ -32,7 +31,6 @@ export const Users = () => {
         users={users}
         loading={loading}
         error={error}
-        onDeleteUser={handleDeleteUser}
         onToggleBlockUser={handleUnbanUser}
         onMoreInfo={handleMoreInfo}
       />
