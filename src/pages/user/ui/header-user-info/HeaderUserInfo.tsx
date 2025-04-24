@@ -27,7 +27,7 @@ export const HeaderUserInfo = () => {
 
   const userAvatar = user?.profile?.avatars?.[0]?.url ? user.profile.avatars[0].url : NoAvatar;
   return (
-    <header className={s.container}>
+    <div className={s.container}>
       {loading && <SkeletonUserInfo />}
       {!loading && (
         <div className={s.main}>
@@ -54,6 +54,6 @@ export const HeaderUserInfo = () => {
           </div>
         </div>
       )}
-    </header>
+    </div>
   );
 };
