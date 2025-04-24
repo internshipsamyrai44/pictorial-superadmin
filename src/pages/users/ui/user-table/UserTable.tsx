@@ -12,10 +12,9 @@ type UserTableProps = {
   loading: boolean;
   error: any;
   onToggleBlockUser: (id: number) => void;
-  onMoreInfo: (id: number) => void;
 };
 
-export const UserTable = ({ users, loading, error, onToggleBlockUser, onMoreInfo }: UserTableProps) => {
+export const UserTable = ({ users, loading, error, onToggleBlockUser }: UserTableProps) => {
   return (
     <table className={s.table}>
       <thead>
@@ -35,9 +34,7 @@ export const UserTable = ({ users, loading, error, onToggleBlockUser, onMoreInfo
         ) : users.length === 0 ? (
           <UserTableEmpty />
         ) : (
-          users.map((user) => (
-            <UserRow key={user.id} user={user} onToggleBlockUser={onToggleBlockUser} onMoreInfo={onMoreInfo} />
-          ))
+          users.map((user) => <UserRow key={user.id} user={user} onToggleBlockUser={onToggleBlockUser} />)
         )}
       </tbody>
     </table>

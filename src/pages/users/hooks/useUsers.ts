@@ -71,10 +71,6 @@ export const useUsers = () => {
     });
   };
 
-  const handleMoreInfo = (id: number) => {
-    console.log(`More information about user with ID: ${id}`);
-  };
-
   const users = data?.getUsers.users || [];
   const totalCount = data?.getUsers.pagination?.totalCount || 0;
 
@@ -91,7 +87,6 @@ export const useUsers = () => {
     handleSearchChange,
     handleFilterChange,
     handleDeleteUser,
-    handleUnbanUser,
-    handleMoreInfo
+    handleUnbanUser
   };
 };

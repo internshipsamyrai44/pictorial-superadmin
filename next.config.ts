@@ -1,8 +1,17 @@
 import type { NextConfig } from 'next';
+
 import path from 'path';
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'staging-it-incubator.s3.eu-central-1.amazonaws.com',
+        pathname: '**'
+      }
+    ]
+  },
   webpack(config) {
     config.resolve = config.resolve || {};
     config.resolve.alias = config.resolve.alias || {};

@@ -1,0 +1,61 @@
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+.skeleton {
+  background: linear-gradient(90deg, #4c4c4c 25%, #535353 50%, #4c4c4c 75%);
+  background-size: 200% 100%;
+  animation: skeleton-animation 1.5s infinite ease-in-out;
+  border-radius: 4px;
+}
+
+.skeletonBlock {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}
+
+.nameBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.userName {
+  width: 180px;
+  height: 16px;
+}
+
+.fullName {
+  width: 160px;
+  height: 14px;
+}
+
+.infoBlock {
+  display: flex;
+  gap: 16px;
+}
+
+.id,
+.date {
+  width: 100px;
+  height: 12px;
+}
+
+@keyframes skeleton-animation {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}

@@ -77,3 +77,38 @@ export type BlockUserVariables = {
   userId: number;
   blocked: boolean;
 };
+
+export type ProfileType = {
+  firstName: string;
+  lastName: string;
+  avatars: {
+    url: string;
+  }[];
+};
+
+export type UserResponse = {
+  getUser: {
+    id: number;
+    userName: string;
+    createdAt: string;
+    profile: ProfileType;
+  };
+};
+
+type ImagePost = {
+  id: number;
+  url: string;
+  createdAt?: string;
+  width?: number;
+  height?: number;
+  fileSize?: number;
+};
+
+export type PostsByUseResponse = {
+  getPostsByUser: {
+    pagesCount: number;
+    pageSize: number;
+    totalCount: number;
+    items: ImagePost[];
+  };
+};
