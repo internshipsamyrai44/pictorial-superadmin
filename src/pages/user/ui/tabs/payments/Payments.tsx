@@ -1,6 +1,51 @@
 import Table from '@/components/table/Table';
+import { useQuery } from '@apollo/client';
+import { UserResponse } from '@/entities/user/types';
+import { GET_USER_PAYMENTS } from '@/entities/payments/api';
+import { useParams } from 'next/navigation';
+import { ParamsType } from '@/pages/user/ui/header-user-info/HeaderUserInfo';
+import { PaymentResponse } from '@/entities/payments/types';
+import { PaymentRow } from '@/pages/user/ui/tabs/payments/payments-row/PaymentsRow';
+import { Pagination } from '@internshipsamyrai44-ui-kit/components-lib';
+import { useState } from 'react';
+import page from '@/app/(pages)/login/page';
+import { PaginationPanel } from '@/pages/users/ui/pagination-panel';
+
+export enum SortDirection {
+  ASC = 'asc',
+  DESC = 'desc'
+}
+
+export enum SortBy {
+  createdAt = 'createdAt',
+  paymentMethod = 'paymentMethod',
+  status = 'status',
+  dateOfPayment = 'dateOfPayment'
+}
 
 export const Payments = () => {
+  const { userId } = useParams() as ParamsType;
+  const [pageSize, setPageSize] = useState(10);
+  const [page, setPage] = useState(1);
+
+  const { data } = useQuery<PaymentResponse>(GET_USER_PAYMENTS, {
+    variables: {
+      userId: Number(userId),
+      page: page,
+      pageSize: pageSize,
+      pageNumber: 1,
+      sortBy: SortBy.createdAt,
+      sortDirection: SortDirection.DESC
+    },
+    fetchPolicy: 'network-only'
+  });
+
+  console.log(page);
+
+  const response = data?.getPaymentsByUser;
+  if (!response) return null;
+  const payments = response.items;
+  const totalCount = response.totalCount;
   return (
     <Table>
       <Table.Header>
@@ -12,6 +57,19 @@ export const Payments = () => {
           <Table.Cell>Payment Type</Table.Cell>
         </Table.Row>
       </Table.Header>
+
+      <Table.Body>
+        {payments.map((payment) => (
+          <PaymentRow payment={payment} key={payment.id} />
+        ))}
+      </Table.Body>
+      <PaginationPanel
+        pageSize={pageSize.toString() || '10'}
+        currentPage={page}
+        totalCount={totalCount}
+        onChangePage={(e) => setPage(e)}
+        onChangePageSize={(value) => setPageSize(Number(value))}
+      />
     </Table>
   );
 };

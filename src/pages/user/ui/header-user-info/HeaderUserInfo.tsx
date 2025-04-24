@@ -7,9 +7,9 @@ import { GET_USER } from '@/entities/user/api';
 import s from './HeaderUserInfo.module.css';
 import { Typography } from '@internshipsamyrai44-ui-kit/components-lib';
 import Link from 'next/link';
-import { convertToLocalDate } from '@/widgets/convertToLoaclDate';
 import NoAvatar from '../../../../../public/img/noAvatar.png';
 import { SkeletonUserInfo } from '@/pages/user/ui/header-user-info/skeleton-user-info/SkeletotUserInfo';
+import { convertToLocalDate } from '@/shared/utils/convertToLocalDate';
 
 export type ParamsType = {
   userId: string;
