@@ -24,7 +24,7 @@ type SideNavBar = {
 
 export const SideNavPanel = ({ className }: SideNavBar) => {
   const pathname = usePathname();
-
+  const hideSidebar = pathname?.includes('/user/');
   const options = [
     { icon: MyProfileIcon, iconActive: MyProfileActiveIcon, title: 'Users list', url: PATH.USERS, value: 'users' },
     {
@@ -46,23 +46,25 @@ export const SideNavPanel = ({ className }: SideNavBar) => {
 
   return (
     <Sidebar className={className}>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            {options.map((item) => (
-              <SidebarLink href={item.url} key={item.value}>
-                <SidebarItem
-                  className={s.sidebarItem}
-                  icon={item.icon}
-                  title={item.title}
-                  iconActive={item.iconActive}
-                  isActive={pathname === item.url}
-                />
-              </SidebarLink>
-            ))}
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
+      {!hideSidebar && (
+        <SidebarContent>
+          <SidebarGroup>
+            <SidebarGroupContent>
+              {options.map((item) => (
+                <SidebarLink href={item.url} key={item.value}>
+                  <SidebarItem
+                    className={s.sidebarItem}
+                    icon={item.icon}
+                    title={item.title}
+                    iconActive={item.iconActive}
+                    isActive={pathname === item.url}
+                  />
+                </SidebarLink>
+              ))}
+            </SidebarGroupContent>
+          </SidebarGroup>
+        </SidebarContent>
+      )}
     </Sidebar>
   );
 };

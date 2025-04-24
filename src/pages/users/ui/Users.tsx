@@ -19,21 +19,14 @@ export const Users = () => {
     handlePageSizeChange,
     handleSearchChange,
     handleFilterChange,
-    handleUnbanUser,
-    handleMoreInfo
+    handleUnbanUser
   } = useUsers();
 
   return (
     <div className={s.container}>
       <SearchPanel searchTerm={searchTerm} onSearchChange={handleSearchChange} onFilterChange={handleFilterChange} />
 
-      <UserTable
-        users={users}
-        loading={loading}
-        error={error}
-        onToggleBlockUser={handleUnbanUser}
-        onMoreInfo={handleMoreInfo}
-      />
+      <UserTable users={users} loading={loading} error={error} onToggleBlockUser={handleUnbanUser} />
 
       <PaginationPanel
         currentPage={currentPage}

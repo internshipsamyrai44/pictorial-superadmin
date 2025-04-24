@@ -8,15 +8,20 @@ import MoreIcon from 'public/icons/more.svg';
 import { useState } from 'react';
 import { DeleteUserModal } from '@/pages/users/ui/modal/DeleteUserModal';
 import { User } from '@/entities/user/types';
+import { useRouter } from 'next/navigation';
 
 type UserActionsMenuProps = {
   user: User;
   onToggleBlockUser: (id: number) => void;
-  onMoreInfo: (id: number) => void;
 };
 
-export const UserActionsMenu = ({ user, onToggleBlockUser, onMoreInfo }: UserActionsMenuProps) => {
+export const UserActionsMenu = ({ user, onToggleBlockUser }: UserActionsMenuProps) => {
   const [showDelModal, setShowDelModal] = useState(false);
+  const router = useRouter();
+
+  const onMoreInfoHandler = (id: number) => {
+    router.push(`/user/${id}`);
+  };
 
   return (
     <>
@@ -35,7 +40,7 @@ export const UserActionsMenu = ({ user, onToggleBlockUser, onMoreInfo }: UserAct
             <UnbanIcon className={s.popoverItemIcon} />
             <span className={s.popoverItemText}>{user.userBan ? 'Un-ban User' : 'Block User'}</span>
           </div>
-          <div className={s.popoverItem} onClick={() => onMoreInfo(user.id)}>
+          <div className={s.popoverItem} onClick={() => onMoreInfoHandler(user.id)}>
             <MoreIcon className={s.popoverItemIcon} />
             <span className={s.popoverItemText}>More Information</span>
           </div>
