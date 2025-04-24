@@ -94,3 +94,21 @@ export type UserResponse = {
     profile: ProfileType;
   };
 };
+
+type ImagePost = {
+  id: number;
+  url: string;
+  createdAt?: string;
+  width?: number;
+  height?: number;
+  fileSize?: number;
+};
+
+export type PostsByUseResponse = {
+  getPostsByUser: {
+    pagesCount: number;
+    pageSize: number;
+    totalCount: number;
+    items: ImagePost[];
+  };
+};

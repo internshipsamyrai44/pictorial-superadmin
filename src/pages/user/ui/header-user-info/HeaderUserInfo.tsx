@@ -10,7 +10,7 @@ import Link from 'next/link';
 import { convertToLocalDate } from '@/widgets/convertToLoaclDate';
 import NoAvatar from '../../../../../public/img/noAvatar.png';
 
-type ParamsType = {
+export type ParamsType = {
   userId: string;
 };
 
@@ -55,4 +55,3 @@ export const HeaderUserInfo = () => {
     </header>
   );
 };
-s;

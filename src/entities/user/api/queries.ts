@@ -56,3 +56,17 @@ export const GET_USER = gql`
     }
   }
 `;
+
+export const GET_USER_POSTS = gql`
+  query GetUserPosts($userId: Int!, $endCursorId: Int) {
+    getPostsByUser(userId: $userId, endCursorId: $endCursorId) {
+      items {
+        id
+        url
+      }
+      totalCount
+      pageSize
+      pagesCount
+    }
+  }
+`;
