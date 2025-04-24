@@ -1,6 +1,8 @@
 'use client';
 
 import { useParams } from 'next/navigation';
+
+import { BackLink } from '@/pages/user-info/ui/back-link/BackLink';
 type ParamsType = {
   userId: string;
 };
@@ -8,5 +10,5 @@ type ParamsType = {
 export const UserInfo = () => {
   const { userId } = useParams() as ParamsType;
 
-  return <h1>User {userId} Page</h1>;
+  return <BackLink />;
 };
