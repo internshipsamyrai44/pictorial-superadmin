@@ -1,0 +1,23 @@
+.table {
+  width: 100%;
+}
+
+.head {
+  background-color: var(--dark-500);
+  font-size: var(--font-size-s);
+  font-weight: var(--font-weight-semi-bold);
+}
+
+.cell {
+  padding: 12px 24px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-around;
+}
+
+.body > .row {
+  border: 1px solid var(--dark-500);
+  border-top: none;
+}
