@@ -4,7 +4,7 @@ import s from './Users.module.scss';
 import { useUsers } from '../hooks/useUsers';
 import { SearchPanel } from './search-panel';
 import { UserTable } from './user-table';
-import { PaginationPanel } from './pagination-panel';
+import { PaginationPanel } from '../../../shared/components/pagination-panel';
 
 export const Users = () => {
   const {
