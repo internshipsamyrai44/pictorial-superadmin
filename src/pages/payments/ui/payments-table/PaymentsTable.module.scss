@@ -1,0 +1,24 @@
+.table {
+  margin-top: 24px;
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--dark-500);
+}
+
+.table thead {
+  background-color: var(--dark-500);
+}
+
+.table th,
+.table td {
+  padding: 12px 24px;
+  text-align: left;
+}
+
+.table td:last-child {
+  width: 200px;
+}
+
+.table tr:not(:last-child) {
+  border-bottom: 1px solid var(--dark-500);
+}
