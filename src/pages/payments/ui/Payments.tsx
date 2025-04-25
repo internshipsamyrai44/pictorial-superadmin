@@ -17,14 +17,15 @@ export const Payments = () => {
     searchTerm,
     setCurrentPage,
     handlePageSizeChange,
-    handleSearchChange
+    handleSearchChange,
+    handleSortChange
   } = usePayments();
 
   return (
     <div className={s.container}>
       <PaymentsSearch searchTerm={searchTerm} onSearchChange={handleSearchChange} />
 
-      <PaymentsTable payments={payments} loading={loading} error={error} />
+      <PaymentsTable payments={payments} loading={loading} error={error} handleSortChange={handleSortChange} />
       <PaginationPanel
         currentPage={currentPage}
         pageSize={pageSize}

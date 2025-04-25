@@ -2,7 +2,7 @@
 
 import s from './PaymentRow.module.scss';
 import Image from 'next/image';
-import emptyAvatar from '../../../../../../public/images/noAvatar.png';
+import emptyAvatar from '../../../../../../public/img/noAvatar.png';
 import { Payment } from '@/entities/payments/types';
 
 type Props = {

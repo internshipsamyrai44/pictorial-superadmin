@@ -8,7 +8,6 @@ export const GET_PAYMENTS = gql`
     $sortBy: String = "createdAt"
     # Sorting management. Accepts only 'asc' or 'desc' values. Default: 'desc'..
     $sortDirection: SortDirection = desc
-    # Search by userName field
     $searchTerm: String
   ) {
     getPayments(

@@ -20,6 +20,7 @@ export type Payment = {
   userName: string;
   avatars: Avatar[];
 };
+
 export type Avatar = {
   url: string;
   width: number;
@@ -43,3 +44,6 @@ enum SubscriptionType {
   DAY = 'DAY',
   WEEKLY = 'WEEKLY'
 }
+
+export type PaymentsortBy = 'createdAt' | 'paymentMethod' | 'amount' | 'userName';
+export type SortDirection = 'asc' | 'desc';
