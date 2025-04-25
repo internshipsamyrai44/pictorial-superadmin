@@ -25,6 +25,7 @@ export const GET_USER_PAYMENTS = gql`
         price
         paymentType
         type
+        id
       }
     }
   }

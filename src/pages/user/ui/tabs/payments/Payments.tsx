@@ -1,15 +1,12 @@
 import Table from '@/components/table/Table';
 import { useQuery } from '@apollo/client';
-import { UserResponse } from '@/entities/user/types';
-import { GET_USER_PAYMENTS } from '@/entities/payments/api';
 import { useParams } from 'next/navigation';
 import { ParamsType } from '@/pages/user/ui/header-user-info/HeaderUserInfo';
-import { PaymentResponse } from '@/entities/payments/types';
 import { PaymentRow } from '@/pages/user/ui/tabs/payments/payments-row/PaymentsRow';
-import { Pagination } from '@internshipsamyrai44-ui-kit/components-lib';
 import { useState } from 'react';
-import page from '@/app/(pages)/login/page';
 import { PaginationPanel } from '@/pages/users/ui/pagination-panel';
+import { GET_USER_PAYMENTS } from '@/features/payments/api';
+import { PaymentResponse } from '@/features/payments/types';
 
 export enum SortDirection {
   ASC = 'asc',
@@ -40,29 +37,29 @@ export const Payments = () => {
     fetchPolicy: 'network-only'
   });
 
-  console.log(page);
-
   const response = data?.getPaymentsByUser;
   if (!response) return null;
   const payments = response.items;
   const totalCount = response.totalCount;
   return (
-    <Table>
-      <Table.Header>
-        <Table.Row>
-          <Table.Cell>Date of Payment</Table.Cell>
-          <Table.Cell>End date of Payment</Table.Cell>
-          <Table.Cell>Amount, $</Table.Cell>
-          <Table.Cell>Subscription Type</Table.Cell>
-          <Table.Cell>Payment Type</Table.Cell>
-        </Table.Row>
-      </Table.Header>
+    <>
+      <Table>
+        <Table.Header>
+          <Table.Row>
+            <Table.Cell>Date of Payment</Table.Cell>
+            <Table.Cell>End date of Payment</Table.Cell>
+            <Table.Cell>Amount, $</Table.Cell>
+            <Table.Cell>Subscription Type</Table.Cell>
+            <Table.Cell>Payment Type</Table.Cell>
+          </Table.Row>
+        </Table.Header>
 
-      <Table.Body>
-        {payments.map((payment) => (
-          <PaymentRow payment={payment} key={payment.id} />
-        ))}
-      </Table.Body>
+        <Table.Body>
+          {payments.map((payment) => (
+            <PaymentRow payment={payment} key={payment.id} />
+          ))}
+        </Table.Body>
+      </Table>
       <PaginationPanel
         pageSize={pageSize.toString() || '10'}
         currentPage={page}
@@ -70,6 +67,6 @@ export const Payments = () => {
         onChangePage={(e) => setPage(e)}
         onChangePageSize={(value) => setPageSize(Number(value))}
       />
-    </Table>
+    </>
   );
 };

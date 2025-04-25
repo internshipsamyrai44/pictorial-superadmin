@@ -1,7 +1,6 @@
 import Table from '@/components/table/Table';
-import { PaymentType } from '@/entities/payments/types';
 import { convertToLocalDate } from '@/shared/utils/convertToLocalDate';
-import s from './PaymentsRow.module.css';
+import { PaymentType } from '@/features/payments/types';
 
 type Props = {
   payment: PaymentType;
@@ -16,7 +15,7 @@ const paymentTypeMap = {
 export const PaymentRow = ({ payment }: Props) => {
   const { startDate, endDate, price, paymentType, type } = payment;
   return (
-    <Table.Row className={s.row}>
+    <Table.Row>
       <Table.Cell>{convertToLocalDate(startDate)}</Table.Cell>
       <Table.Cell>{convertToLocalDate(endDate)}</Table.Cell>
       <Table.Cell>${price}</Table.Cell>
