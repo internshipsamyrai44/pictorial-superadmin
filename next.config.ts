@@ -4,7 +4,6 @@ import path from 'path';
 
 const nextConfig: NextConfig = {
   images: {
-<<<<<<< Updated upstream
     remotePatterns: [
       {
         protocol: 'https',
@@ -13,11 +12,6 @@ const nextConfig: NextConfig = {
       }
     ]
   },
-=======
-    domains: ['staging-it-incubator.s3.eu-central-1.amazonaws.com']
-  },
-  /* config options here */
->>>>>>> Stashed changes
   webpack(config) {
     config.resolve = config.resolve || {};
     config.resolve.alias = config.resolve.alias || {};
