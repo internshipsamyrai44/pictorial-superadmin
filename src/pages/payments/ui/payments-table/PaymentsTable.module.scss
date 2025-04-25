@@ -9,6 +9,13 @@
   background-color: var(--dark-500);
 }
 
+.headerCell {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
 .table th,
 .table td {
   padding: 12px 24px;
