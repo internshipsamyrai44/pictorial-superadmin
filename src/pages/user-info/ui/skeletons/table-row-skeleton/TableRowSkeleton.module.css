@@ -1,0 +1,21 @@
+.skeleton {
+  content: '';
+  width: 100%;
+  height: 35px;
+  background: linear-gradient(90deg, rgba(76, 76, 76, 0.7) 25%, rgba(83, 83, 83, 0.9) 30%, rgba(76, 76, 76, 0.7) 75%);
+  background-size: 400% 100%;
+  animation: skeleton-animation 1.5s infinite ease-in-out;
+  margin-top: 4px;
+  border-radius: 5px;
+}
+
+
+@keyframes skeleton-animation {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+

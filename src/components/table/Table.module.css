@@ -9,7 +9,8 @@
 }
 
 .cell {
-  padding: 12px 24px;
+  padding: 8px;
+  width: 100%;
 }
 
 .row {
