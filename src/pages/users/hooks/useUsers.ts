@@ -1,8 +1,8 @@
 import { useMutation, useQuery } from '@apollo/client';
 import { useState } from 'react';
 import { FilterOptions } from '../ui/search-panel/SearchPanel';
-import { GET_USERS, DELETE_USER, BLOCK_USER } from '@/entities/user/api';
-import { UsersResponse, DeleteUserResponse, BlockUserResponse } from '@/entities/user/types';
+import { GET_USERS, DELETE_USER } from '@/entities/user/api';
+import { UsersResponse, DeleteUserResponse } from '@/entities/user/types';
 
 export const useUsers = () => {
   const [pageSize, setPageSize] = useState('10');
@@ -23,12 +23,6 @@ export const useUsers = () => {
   });
 
   const [deleteUser] = useMutation<DeleteUserResponse>(DELETE_USER, {
-    onCompleted: () => {
-      refetch();
-    }
-  });
-
-  const [blockUser] = useMutation<BlockUserResponse>(BLOCK_USER, {
     onCompleted: () => {
       refetch();
     }
@@ -57,20 +51,6 @@ export const useUsers = () => {
     });
   };
 
-  const handleUnbanUser = (id: number) => {
-    const user = data?.getUsers.users.find((u) => u.id === id);
-    const newBlockedStatus = user ? !user.userBan?.reason : false;
-
-    blockUser({
-      variables: {
-        userId: id,
-        blocked: newBlockedStatus
-      }
-    }).catch((err) => {
-      console.error('Ошибка при изменении статуса блокировки:', err);
-    });
-  };
-
   const users = data?.getUsers.users || [];
   const totalCount = data?.getUsers.pagination?.totalCount || 0;
 
@@ -86,7 +66,6 @@ export const useUsers = () => {
     handlePageSizeChange,
     handleSearchChange,
     handleFilterChange,
-    handleDeleteUser,
-    handleUnbanUser
+    handleDeleteUser
   };
 };

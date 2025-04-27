@@ -62,20 +62,21 @@ export type DeleteUserVariables = {
   userId: number;
 };
 
-export type BlockUserResponse = {
-  blockUser: {
-    success: boolean;
-    message: string;
-    user: {
-      id: number;
-      blocked: boolean;
-    };
-  };
+export type BanUserVariables = {
+  userId: number;
+  banReason: string;
 };
 
-export type BlockUserVariables = {
+export type BanUserResponse = {
+  banUser: boolean;
+};
+
+export type UnbanUserVariables = {
   userId: number;
-  blocked: boolean;
+};
+
+export type UnbanUserResponse = {
+  unbanUser: boolean;
 };
 
 type ImagePost = {

@@ -4,7 +4,7 @@ import s from './Users.module.scss';
 import { useUsers } from '../hooks/useUsers';
 import { SearchPanel } from './search-panel';
 import { UserTable } from './user-table';
-import { PaginationPanel } from '../../../shared/components/pagination-panel';
+import { PaginationPanel } from '@/shared/components/pagination-panel';
 
 export const Users = () => {
   const {
@@ -18,15 +18,14 @@ export const Users = () => {
     setCurrentPage,
     handlePageSizeChange,
     handleSearchChange,
-    handleFilterChange,
-    handleUnbanUser
+    handleFilterChange
   } = useUsers();
 
   return (
     <div className={s.container}>
       <SearchPanel searchTerm={searchTerm} onSearchChange={handleSearchChange} onFilterChange={handleFilterChange} />
 
-      <UserTable users={users} loading={loading} error={error} onToggleBlockUser={handleUnbanUser} />
+      <UserTable users={users} loading={loading} error={error} />
 
       <PaginationPanel
         currentPage={currentPage}
