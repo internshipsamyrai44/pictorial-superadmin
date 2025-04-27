@@ -4,11 +4,11 @@ import { SubscribersResponse } from '@/features/user-info/subscriptions/types';
 import { GET_USER_FOLLOWERS, GET_USER_FOLLOWING } from '@/features/user-info/subscriptions/api';
 import { SortBy } from '@/pages/user-info/hooks/usePayments';
 import { SortDirection } from '@/entities/user/types';
-import { SubscriberType } from '@/pages/user-info/ui/tabs/subscribers/Subscribers';
+import { SubscriberPropsType } from '@/pages/user-info/ui/tabs/subscribers/Subscribers';
 
 type Props = {
   userId: string;
-  subscriberType: SubscriberType;
+  subscriberType: SubscriberPropsType;
 };
 
 export const useSubscribers = ({ userId, subscriberType }: Props) => {

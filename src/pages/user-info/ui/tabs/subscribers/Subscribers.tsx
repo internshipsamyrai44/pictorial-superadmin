@@ -7,9 +7,9 @@ import { useSubscribers } from '@/pages/user-info/hooks/useSubscribers';
 import { SubscriberRow } from '@/pages/user-info/ui/tabs/subscribers/subscriber-row/SubscriberRow';
 import TableRowSkeleton from '@/pages/user-info/ui/skeletons/table-row-skeleton/TableRowSkeleton';
 
-export type SubscriberType = 'followers' | 'following';
+export type SubscriberPropsType = 'followers' | 'following';
 type Props = {
-  subscriberType: SubscriberType;
+  subscriberType: SubscriberPropsType;
 };
 
 export const Subscribers = ({ subscriberType }: Props) => {
@@ -20,15 +20,21 @@ export const Subscribers = ({ subscriberType }: Props) => {
       subscriberType
     });
 
+  const subscribersColumns = [
+    { key: 'userId', label: 'User ID' },
+    { key: 'userName', label: 'Username' },
+    { key: 'profileLink', label: 'Profile link' },
+    { key: 'createdAt', label: 'Subscription date' }
+  ];
+
   return (
     <>
       <Table>
         <Table.Header>
           <Table.Row>
-            <Table.Cell>User ID</Table.Cell>
-            <Table.Cell>Username</Table.Cell>
-            <Table.Cell>Profile link</Table.Cell>
-            <Table.Cell>Subscription date</Table.Cell>
+            {subscribersColumns.map((column) => (
+              <Table.Cell key={column.key}>{column.label}</Table.Cell>
+            ))}
           </Table.Row>
         </Table.Header>
         <Table.Body>

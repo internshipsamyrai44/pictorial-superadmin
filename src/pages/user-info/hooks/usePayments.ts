@@ -40,7 +40,7 @@ export const usePayments = (userId: string) => {
     payments: response?.items || [],
     totalCount: response?.totalCount || 0,
     loading,
-    page: currentPage,
+    currentPage,
     pageSize,
     setCurrentPage,
     handlePageSizeChange

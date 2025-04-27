@@ -1,8 +1,8 @@
 import Table from '@/components/table/Table';
 import { convertToLocalDate } from '@/shared/utils/convertToLocalDate';
 import Link from 'next/link';
-import { SubscriberType } from '@/features/subscriptions/types';
 import s from './SubscriberRow.module.css';
+import { SubscriberType } from '@/features/user-info/subscriptions/types';
 
 type Props = {
   subscriber: SubscriberType;
@@ -16,7 +16,7 @@ export const SubscriberRow = ({ subscriber }: Props) => {
       <Table.Cell>{userName}</Table.Cell>
       <Table.Cell>
         <Link className={s.link} href={`https://pictorial.work/profile/${userId}`}>
-          {userName}{' '}
+          {userName}
         </Link>
       </Table.Cell>
       <Table.Cell>{convertToLocalDate(createdAt)}</Table.Cell>
