@@ -10,11 +10,11 @@ import { User } from '@/entities/user/types';
 type UserTableProps = {
   users: User[];
   loading: boolean;
-  error: any;
-  onToggleBlockUser: (id: number) => void;
+  error: unknown;
+  // onToggleBlockUser: (id: number) => void;
 };
 
-export const UserTable = ({ users, loading, error, onToggleBlockUser }: UserTableProps) => {
+export const UserTable = ({ users, loading, error }: UserTableProps) => {
   return (
     <table className={s.table}>
       <thead>
@@ -34,7 +34,7 @@ export const UserTable = ({ users, loading, error, onToggleBlockUser }: UserTabl
         ) : users.length === 0 ? (
           <UserTableEmpty />
         ) : (
-          users.map((user) => <UserRow key={user.id} user={user} onToggleBlockUser={onToggleBlockUser} />)
+          users.map((user) => <UserRow key={user.id} user={user} />)
         )}
       </tbody>
     </table>

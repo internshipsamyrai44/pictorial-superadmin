@@ -6,15 +6,14 @@ export const DELETE_USER = gql`
   }
 `;
 
-export const BLOCK_USER = gql`
-  mutation BlockUser($userId: Int!, $blocked: Boolean!) {
-    blockUser(userId: $userId, blocked: $blocked) {
-      success
-      message
-      user {
-        id
-        blocked
-      }
-    }
+export const BAN_USER = gql`
+  mutation BlockUser($userId: Int!, $banReason: String!) {
+    banUser(userId: $userId, banReason: $banReason)
+  }
+`;
+
+export const UNBAN_USER = gql`
+  mutation unbanUser($userId: Int!) {
+    unbanUser(userId: $userId)
   }
 `;
