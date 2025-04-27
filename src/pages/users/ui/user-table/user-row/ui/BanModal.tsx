@@ -1,4 +1,4 @@
-import { BanUserResponse, BanUserVariables, User } from '@/entities/user/types';
+import { BanUserResponse, BanUserVariables, UnbanUserResponse, UnbanUserVariables, User } from '@/entities/user/types';
 import { Alertpopup, Button, Input, Modal, Select, SelectItem } from '@internshipsamyrai44-ui-kit/components-lib';
 import { useRef, useState } from 'react';
 import s from './BanModal.module.scss';
@@ -23,12 +23,15 @@ export const BanModal = ({ user, onClose }: BanModalProps) => {
     refetchQueries: ['GetUsers']
   });
 
-  const [unbanUser, { loading: unbanLoading, error: unbanError }] = useMutation(UNBAN_USER, {
-    onCompleted: () => {
-      onClose();
-    },
-    refetchQueries: ['GetUsers']
-  });
+  const [unbanUser, { loading: unbanLoading, error: unbanError }] = useMutation<UnbanUserResponse, UnbanUserVariables>(
+    UNBAN_USER,
+    {
+      onCompleted: () => {
+        onClose();
+      },
+      refetchQueries: ['GetUsers']
+    }
+  );
 
   const onModalValueChange = (value: string) => {
     if (value === 'Another reason') {
