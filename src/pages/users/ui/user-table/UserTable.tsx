@@ -18,6 +18,7 @@ type UserTableProps = {
   sortedDirection: SortedDirectionEnum;
   setSortedBy: (arg: SortedByEnum) => void;
   setSortedDirection: (arg: SortedDirectionEnum) => void;
+  onSort?: (arg: SortedByEnum) => void;
 };
 
 export const UserTable = ({
@@ -27,7 +28,8 @@ export const UserTable = ({
   sortedBy,
   sortedDirection,
   setSortedBy,
-  setSortedDirection
+  setSortedDirection,
+  onSort
 }: UserTableProps) => {
   const getFilterImage = (columnName: SortedByEnum) => {
     if (columnName === sortedBy) {
@@ -51,6 +53,8 @@ export const UserTable = ({
       setSortedDirection(SortedDirectionEnum.ASC);
       setSortedBy(SortedByEnum.ID);
     }
+
+    onSort?.(columnName);
   };
 
   return (

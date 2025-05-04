@@ -1,7 +1,7 @@
 'use client';
 
 import s from './Users.module.scss';
-import { useUsers } from '../hooks/useUsers';
+import { SortedByEnum, useUsers } from '../hooks/useUsers';
 import { SearchPanel } from './search-panel';
 import { UserTable } from './user-table';
 import { PaginationPanel } from '@/shared/components/pagination-panel';
@@ -25,6 +25,10 @@ export const Users = () => {
     handleFilterChange
   } = useUsers();
 
+  const handleSort = (columnName: SortedByEnum) => {
+    setCurrentPage(1);
+  };
+
   return (
     <div className={s.container}>
       <SearchPanel searchTerm={searchTerm} onSearchChange={handleSearchChange} onFilterChange={handleFilterChange} />
@@ -37,6 +41,7 @@ export const Users = () => {
         sortedDirection={sortedDirection}
         setSortedBy={setSortedBy}
         setSortedDirection={setSortedDirection}
+        onSort={handleSort}
       />
 
       <PaginationPanel
