@@ -4,18 +4,31 @@ import { FilterOptions } from '../ui/search-panel/SearchPanel';
 import { GET_USERS, DELETE_USER } from '@/entities/user/api';
 import { UsersResponse, DeleteUserResponse } from '@/entities/user/types';
 
+export enum SortedByEnum {
+  USERNAME = 'username',
+  DATEADDED = 'dateAdded',
+  ID = 'id'
+}
+
+export enum SortedDirectionEnum {
+  ASC = 'asc',
+  DESC = 'desc'
+}
+
 export const useUsers = () => {
   const [pageSize, setPageSize] = useState('10');
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState<FilterOptions>(FilterOptions.ALL);
+  const [sortedBy, setSortedBy] = useState<SortedByEnum>(SortedByEnum.ID);
+  const [sortedDirection, setSortedDirection] = useState<SortedDirectionEnum>(SortedDirectionEnum.ASC);
 
   const { loading, error, data, refetch } = useQuery<UsersResponse>(GET_USERS, {
     variables: {
       pageSize: +pageSize,
       pageNumber: currentPage,
-      sortBy: 'id',
-      sortDirection: 'asc',
+      sortBy: sortedBy,
+      sortDirection: sortedDirection,
       searchTerm: searchTerm || '',
       statusFilter: filter
     },
@@ -62,6 +75,10 @@ export const useUsers = () => {
     pageSize,
     currentPage,
     searchTerm,
+    sortedBy,
+    sortedDirection,
+    setSortedBy,
+    setSortedDirection,
     setCurrentPage,
     handlePageSizeChange,
     handleSearchChange,

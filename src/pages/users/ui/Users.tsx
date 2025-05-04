@@ -15,6 +15,10 @@ export const Users = () => {
     pageSize,
     currentPage,
     searchTerm,
+    sortedBy,
+    sortedDirection,
+    setSortedBy,
+    setSortedDirection,
     setCurrentPage,
     handlePageSizeChange,
     handleSearchChange,
@@ -25,7 +29,15 @@ export const Users = () => {
     <div className={s.container}>
       <SearchPanel searchTerm={searchTerm} onSearchChange={handleSearchChange} onFilterChange={handleFilterChange} />
 
-      <UserTable users={users} loading={loading} error={error} />
+      <UserTable
+        users={users}
+        loading={loading}
+        error={error}
+        sortedBy={sortedBy}
+        sortedDirection={sortedDirection}
+        setSortedBy={setSortedBy}
+        setSortedDirection={setSortedDirection}
+      />
 
       <PaginationPanel
         currentPage={currentPage}

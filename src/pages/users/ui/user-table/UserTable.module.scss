@@ -5,8 +5,15 @@
   border: 1px solid var(--dark-500);
 }
 
-.table thead {
-  background-color: var(--dark-500);
+.table th div.sorted {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  &:hover {
+    color: var(--light-100);
+    cursor: pointer;
+  }
 }
 
 .table th,
