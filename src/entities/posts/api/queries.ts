@@ -53,7 +53,7 @@ export const GET_POSTS = gql`
 
 export const POSTS_SUBSCRIPTION = gql`
     subscription OnNewPost {
-        newPost {
+        postAdded {
             id
             description
             ownerId
