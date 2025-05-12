@@ -13,12 +13,16 @@
   width: 100%;
   margin: 0;
   position: relative;
+  max-height: 70px;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
 
   &.expanded {
     max-height: 170px;
     overflow-y: auto;
     word-break: break-word;
     margin-top: 15px;
+    transition: max-height 0.3s ease-in-out;
 
     &::-webkit-scrollbar {
       width: 4px;
@@ -50,6 +54,7 @@
   padding: 0;
   margin-left: 4px;
   display: inline;
+  transition: color 0.2s ease;
 
   &:hover {
     color: var(--accent-700);
