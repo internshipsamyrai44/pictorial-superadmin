@@ -1,83 +1,86 @@
 'use client';
 
-import { ApolloClient, ApolloProvider, createHttpLink, InMemoryCache, split } from '@apollo/client';
-import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
-import { getMainDefinition } from '@apollo/client/utilities';
-import { createClient } from 'graphql-ws';
 import React from 'react';
-import { setContext } from '@apollo/client/link/context';
 import Cookies from 'js-cookie';
+import {
+    ApolloClient,
+    ApolloProvider,
+    createHttpLink,
+    InMemoryCache,
+    split
+} from '@apollo/client';
+import {setContext} from '@apollo/client/link/context';
+import {getMainDefinition} from '@apollo/client/utilities';
+import {WebSocketLink} from '@apollo/client/link/ws';
+import {SubscriptionClient} from 'subscriptions-transport-ws';
 
+// HTTP link for queries & mutations
 const httpLink = createHttpLink({
-  uri: 'https://inctagram.work/api/v1/graphql'
+    uri: 'https://inctagram.work/api/v1/graphql',
+    credentials: 'include',
 });
 
-const wsClient = createClient({
-  url: 'wss://inctagram.work/api/v1/graphql',
-  connectionParams: () => {
+// Auth link to inject Authorization header on HTTP and WS
+const authLink = setContext((_, {headers}) => {
     const token = Cookies.get('authToken');
+    console.log('HTTP Auth Token:', token);
     return {
-      Authorization: token ? `Basic ${token}` : ''
+        headers: {
+            ...headers,
+            ...(token ? {Authorization: `Basic ${token}`} : {}),
+        },
     };
-  },
-  retryAttempts: 5,
-  connectionAckWaitTimeout: 10000,
-  shouldRetry: () => true,
-  on: {
-    connected: () => console.log('WebSocket connected'),
-    closed: () => console.log('WebSocket closed'),
-    error: (error) => console.error('WebSocket error:', error)
-  },
-  lazy: false,
-  keepAlive: 10000,
-  retryWait: async (retries) => {
-    // Экспоненциальная задержка между попытками переподключения
-    const delay = Math.min(1000 * Math.pow(2, retries), 10000);
-    await new Promise(resolve => setTimeout(resolve, delay));
-  }
 });
 
-const wsLink = new GraphQLWsLink(wsClient);
+// SubscriptionClient for WebSocket (subscriptions-transport-ws)
+const wsClient = new SubscriptionClient('wss://inctagram.work/api/v1/graphql', {
+    reconnect: true,
+    connectionParams: () => {
+        const token = Cookies.get('authToken');
+        console.log('WS Connecting with token:', token);
+        return token ? {Authorization: `Basic ${token}`} : {};
+    },
+});
 
+// Additional logs for WS client events
+wsClient.onConnected(() => console.log('WS Client: Connected'));
+wsClient.onReconnected(() => console.log('WS Client: Reconnected'));
+wsClient.onDisconnected(() => console.log('WS Client: Disconnected'));
+wsClient.onError((error: Error) => console.error('WS Client Error:', error));
+
+// WebSocketLink wrapping wsClient
+const wsLink = new WebSocketLink(wsClient);
+
+// Split link: subscriptions -> WS, else -> HTTP
 const splitLink = split(
-  ({ query }) => {
-    const definition = getMainDefinition(query);
-    return (
-      definition.kind === 'OperationDefinition' &&
-      definition.operation === 'subscription'
-    );
-  },
-  wsLink,
-  httpLink
+    ({query}) => {
+        const definition = getMainDefinition(query);
+        // Narrow to OperationDefinitionNode
+        if (
+            definition.kind === 'OperationDefinition' &&
+            'operation' in definition
+        ) {
+            const operation = definition.operation;
+            console.log(`Routing operation '${operation}' to`,
+                operation === 'subscription' ? 'WebSocket' : 'HTTP'
+            );
+            return operation === 'subscription';
+        }
+        // Default to HTTP for fragments or others
+        console.log('Routing non-operation definition to HTTP');
+        return false;
+    },
+    authLink.concat(wsLink),
+    authLink.concat(httpLink)
 );
 
-const authLink = setContext((_, { headers }) => {
-  const token = Cookies.get('authToken');
-  return {
-    headers: {
-      ...headers,
-      Authorization: token ? `Basic ${token}` : ''
-    }
-  };
-});
-
+// Apollo Client setup
 const client = new ApolloClient({
-  link: authLink.concat(splitLink),
-  cache: new InMemoryCache(),
-  defaultOptions: {
-    watchQuery: {
-      fetchPolicy: 'network-only',
-    },
-    query: {
-      fetchPolicy: 'network-only',
-    },
-    mutate: {
-      fetchPolicy: 'network-only',
-    },
-  },
-  connectToDevTools: true
+    link: splitLink,
+    cache: new InMemoryCache(),
+    connectToDevTools: true,
 });
 
-export const ApolloWrapper = ({ children }: { children: React.ReactNode }) => {
-  return <ApolloProvider client={client}>{children}</ApolloProvider>;
-};
+export const ApolloWrapper = ({children}: { children: React.ReactNode }) => (
+    <ApolloProvider client={client}>{children}</ApolloProvider>
+);
