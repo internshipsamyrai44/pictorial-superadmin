@@ -27,16 +27,16 @@ export default function Post({item}: PostProps) {
             <article className={s.postContent}>
                 <div className={s.imageContainer} role="region" aria-label="Post images">
                     {item.images.length > 0 ? (
-                        <SliderPost 
+                        <SliderPost
                             isDots={item.images.length > 1}
                             sizeBtn={24}
                             sliderLength={item.images.length}
                         >
                             {item.images.map((image, index) => {
-                                const imageUrl = image.url?.includes('...') 
-                                    ? image.url.replace('...', '') 
+                                const imageUrl = image.url?.includes('...')
+                                    ? image.url.replace('...', '')
                                     : image.url;
-                                
+
                                 return (
                                     <div key={index} className={s.slide}>
                                         <Image
@@ -67,7 +67,7 @@ export default function Post({item}: PostProps) {
                             priority={false}
                         />
                         <h3 className={s.userName}>{item.userName}</h3>
-                        <button 
+                        <button
                             className={s.blockIcon}
                             aria-label="Block user"
                             title="Block user"

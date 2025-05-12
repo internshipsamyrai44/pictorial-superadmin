@@ -13,27 +13,27 @@
   width: 100%;
   margin: 0;
   position: relative;
-  
+
   &.expanded {
     max-height: 170px;
     overflow-y: auto;
     word-break: break-word;
     margin-top: 15px;
-    
+
     &::-webkit-scrollbar {
       width: 4px;
       display: block;
     }
-    
+
     &::-webkit-scrollbar-track {
       background: var(--dark-500);
       border-radius: 2px;
     }
-    
+
     &::-webkit-scrollbar-thumb {
       background: var(--dark-100);
       border-radius: 2px;
-      
+
       &:hover {
         background: var(--dark-300);
       }
@@ -50,7 +50,7 @@
   padding: 0;
   margin-left: 4px;
   display: inline;
-  
+
   &:hover {
     color: var(--accent-700);
   }
