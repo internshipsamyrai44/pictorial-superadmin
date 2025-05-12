@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import s from './ShowMoreButton.module.scss';
 
 export type Props = {
@@ -8,6 +8,29 @@ export type Props = {
 
 export const ShowMoreButton = ({ maxLength, text }: Props) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(event.target as Node)) {
+        setIsExpanded(false);
+      }
+    };
+
+    const handleEsc = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsExpanded(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener('keydown', handleEsc);
+    
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('keydown', handleEsc);
+    };
+  }, []);
 
   const toggleReadMore = () => {
     setIsExpanded(!isExpanded);
@@ -22,10 +45,19 @@ export const ShowMoreButton = ({ maxLength, text }: Props) => {
   const buttonText = isExpanded ? 'Hide' : 'Show more';
 
   return (
-    <div className={s.container}>
-      <div className={`${s.text} ${isExpanded ? s.expanded : ''}`}>
+    <div className={s.container} ref={containerRef}>
+      <div 
+        className={`${s.text} ${isExpanded ? s.expanded : ''}`}
+        role="region"
+        aria-expanded={isExpanded}
+      >
         {textToShow}
-        <button className={s.button} onClick={toggleReadMore}>
+        <button 
+          className={s.button} 
+          onClick={toggleReadMore}
+          aria-expanded={isExpanded}
+          aria-controls="post-description"
+        >
           {buttonText}
         </button>
       </div>
