@@ -3,9 +3,9 @@
 import {useState, useEffect, useRef} from 'react';
 import Post from '@/pages/posts/ui/post/Post';
 import s from './Posts.module.scss';
-import {Input} from "@internshipsamyrai44-ui-kit/components-lib";
+import {Input} from '@internshipsamyrai44-ui-kit/components-lib';
 import {usePosts} from '../hooks/usePosts';
-import {Post as PostType} from '@/entities/posts/types';
+import {Loader} from '@/shared/components/loader/Loader';
 
 export const Posts = () => {
     const [inputValue, setInputValue] = useState('');
@@ -15,7 +15,7 @@ export const Posts = () => {
         error,
         handleSearchChange,
         handleLoadMore,
-        retry
+        retry,
     } = usePosts();
 
     const observerTarget = useRef<HTMLDivElement>(null);
@@ -29,25 +29,24 @@ export const Posts = () => {
             },
             {
                 root: null,
-                rootMargin: '100px',
-                threshold: 0.1
+                rootMargin: '0px 0px 200px 0px',
+                threshold: 0.1,
             }
         );
 
-        if (observerTarget.current) {
-            observer.observe(observerTarget.current);
-        }
+        const el = observerTarget.current;
+        if (el) observer.observe(el);
 
         return () => {
-            if (observerTarget.current) {
-                observer.unobserve(observerTarget.current);
-            }
+            if (el) observer.unobserve(el);
         };
     }, [loading, handleLoadMore]);
 
     const handleInputChange = (value: string) => {
         setInputValue(value);
-        handleSearchChange({currentTarget: {value}} as React.ChangeEvent<HTMLInputElement>);
+        handleSearchChange({
+            currentTarget: {value},
+        } as React.ChangeEvent<HTMLInputElement>);
     };
 
     return (
@@ -67,26 +66,42 @@ export const Posts = () => {
             )}
 
             <div className={s.postList}>
-                {posts.map((post: PostType) => (
-                    <Post
-                        key={post.id}
-                        item={{
-                            id: post.id,
-                            images: post.images,
-                            description: post.description,
-                            avatarOwner: post.postOwner?.avatars?.[0]?.url || '',
-                            userName: post.postOwner?.userName || `${post.postOwner?.firstName || ''} ${post.postOwner?.lastName || ''}`.trim() || 'Unknown User',
-                            ownerId: post.ownerId,
-                            createdAt: post.createdAt
-                        }}
-                    />
-                ))}
+                {posts.map((post, idx) => {
+                    const isTrigger = idx === posts.length - 5;
+                    return (
+                        <div
+                            key={post.id}
+                            ref={isTrigger ? observerTarget : null}
+                            className={s.postWrapper}
+                        >
+                            <Post
+                                item={{
+                                    id: post.id,
+                                    images: post.images || [],
+                                    description: post.description,
+                                    avatarOwner:
+                                        post.postOwner?.avatars?.[0]?.url || '',
+                                    userName:
+                                        post.postOwner?.userName ||
+                                        `${post.postOwner?.firstName || ''} ${
+                                            post.postOwner?.lastName || ''
+                                        }`
+                                            .trim() ||
+                                        'Unknown User',
+                                    ownerId: post.ownerId,
+                                    createdAt: post.createdAt,
+                                }}
+                            />
+                        </div>
+                    );
+                })}
             </div>
 
-            <div ref={observerTarget} className={s.loadingIndicator}>
-                {loading && 'Loading...'}
-            </div>
+            {loading && (
+                <div className={s.loadingIndicator}>
+                    <Loader/>
+                </div>
+            )}
         </div>
     );
 };
-

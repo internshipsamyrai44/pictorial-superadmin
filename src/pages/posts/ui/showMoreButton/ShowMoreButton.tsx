@@ -7,10 +7,10 @@ export type Props = {
 };
 
 export const ShowMoreButton = ({ maxLength, text }: Props) => {
-  const [isTrimmed, setIsTrimmed] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleReadMore = () => {
-    setIsTrimmed(!isTrimmed);
+    setIsExpanded(!isExpanded);
   };
 
   if (text.length <= maxLength) {
@@ -18,15 +18,17 @@ export const ShowMoreButton = ({ maxLength, text }: Props) => {
   }
 
   const trimmedText = `${text.slice(0, maxLength)}...`;
-  const textToShow = isTrimmed ? trimmedText : text;
-  const buttonText = isTrimmed ? 'ShowMore' : 'Hide';
+  const textToShow = isExpanded ? text : trimmedText;
+  const buttonText = isExpanded ? 'Hide' : 'Show more';
 
   return (
-    <>
-      {textToShow}
-      <button className={s.button} onClick={toggleReadMore}>
-        {buttonText}
-      </button>
-    </>
+    <div className={s.container}>
+      <div className={`${s.text} ${isExpanded ? s.expanded : ''}`}>
+        {textToShow}
+        <button className={s.button} onClick={toggleReadMore}>
+          {buttonText}
+        </button>
+      </div>
+    </div>
   );
 };
