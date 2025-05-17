@@ -12,8 +12,8 @@ export const DeleteUserModal = ({ userId, userName, setShowDelModal }: Props) =>
   const handleCloseModal = () => {
     setShowDelModal(false);
   };
-  const deleteUserHandler = (userId: number) => {
-    handleDeleteUser(userId);
+  const deleteUserHandler = async (userId: number) => {
+    await handleDeleteUser(userId);
     handleCloseModal();
   };
   return (

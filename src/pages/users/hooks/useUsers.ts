@@ -2,7 +2,7 @@ import { useMutation, useQuery } from '@apollo/client';
 import { useState } from 'react';
 import { FilterOptions } from '../ui/search-panel/SearchPanel';
 import { GET_USERS, DELETE_USER } from '@/entities/user/api';
-import { UsersResponse, DeleteUserResponse } from '@/entities/user/types';
+import { UsersResponse } from '@/entities/user/types';
 
 export enum SortedByEnum {
   USERNAME = 'username',
@@ -35,9 +35,30 @@ export const useUsers = () => {
     fetchPolicy: 'network-only'
   });
 
-  const [deleteUser] = useMutation<DeleteUserResponse>(DELETE_USER, {
+  const [deleteUser] = useMutation(DELETE_USER, {
     onCompleted: () => {
       refetch();
+    },
+    update: (cache) => {
+      const existingUsers = cache.readQuery<UsersResponse>({
+        query: GET_USERS,
+        variables: {
+          pageSize: +pageSize,
+          pageNumber: currentPage,
+          sortBy: sortedBy,
+          sortDirection: sortedDirection,
+          searchTerm: searchTerm || '',
+          statusFilter: filter
+        }
+      });
+
+      if (existingUsers && existingUsers.getUsers && existingUsers.getUsers.users) {
+        cache.modify({
+          fields: {
+            getUsers: () => undefined
+          }
+        });
+      }
     }
   });
 
@@ -56,12 +77,15 @@ export const useUsers = () => {
     setCurrentPage(1);
   };
 
-  const handleDeleteUser = (id: number) => {
-    deleteUser({
+  const handleDeleteUser = async (id: number) => {
+    const result = await deleteUser({
       variables: {
         userId: id
       }
     });
+
+    await refetch();
+    return result;
   };
 
   const users = data?.getUsers.users || [];
