@@ -4,6 +4,7 @@ import { Button, Popover, PopoverContent, PopoverTrigger } from '@internshipsamy
 import s from './UserActionsMenu.module.scss';
 import UserDeleteIcon from 'public/icons/user-delete.svg';
 import UnbanIcon from 'public/icons/unban.svg';
+import BlockIcon from 'public/icons/block.svg';
 import MoreIcon from 'public/icons/more.svg';
 import { useState } from 'react';
 import { DeleteUserModal } from '@/pages/users/ui/modal/DeleteUserModal';
@@ -37,8 +38,8 @@ export const UserActionsMenu = ({ user, onToggleBlockUser }: UserActionsMenuProp
             <span className={s.popoverItemText}>Delete User</span>
           </div>
           <div className={s.popoverItem} onClick={() => onToggleBlockUser(user.id)}>
-            <UnbanIcon className={s.popoverItemIcon} />
-            <span className={s.popoverItemText}>{user.userBan ? 'Un-ban User' : 'Block User'}</span>
+            {user.userBan ? <UnbanIcon className={s.popoverItemIcon} /> : <BlockIcon className={s.popoverItemIcon} />}
+            <span className={s.popoverItemText}>{user.userBan ? 'Un-ban User' : 'Ban in the system'}</span>
           </div>
           <div className={s.popoverItem} onClick={() => onMoreInfoHandler(user.id)}>
             <MoreIcon className={s.popoverItemIcon} />
