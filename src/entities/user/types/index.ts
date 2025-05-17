@@ -51,13 +51,6 @@ export type UsersResponse = {
   };
 };
 
-export type DeleteUserResponse = {
-  deleteUser: {
-    success: boolean;
-    message: string;
-  };
-};
-
 export type DeleteUserVariables = {
   userId: number;
 };
