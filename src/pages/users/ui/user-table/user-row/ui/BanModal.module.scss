@@ -20,13 +20,17 @@
   animation: pulseErrorBorder 2s forwards;
 }
 
+.inputWrapper {
+  margin-top: 1rem;
+}
+
 @keyframes pulseErrorBorder {
   0% {
     border-color: #ff3b30;
     box-shadow: 0 0 0 1px #ff3b30;
   }
   100% {
-    border-color: rgb(76 76 76 );
+    border-color: #4c4c4c;
     box-shadow: none;
   }
 }
