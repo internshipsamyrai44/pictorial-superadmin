@@ -1,6 +1,6 @@
 'use client';
 
-import { Payment, PaymentsortBy } from '@/entities/payments/types';
+import { Payment, PaymentsortBy, SortDirection } from '@/entities/payments/types';
 import { PaymentRow } from './payment-row/PaymentRow';
 import s from './PaymentsTable.module.scss';
 import { PaymentsTableLoading } from './PaymentsTableLoading';
@@ -13,6 +13,8 @@ type Props = {
   error: any;
   payments?: Payment[];
   handleSortChange?: (columnId: PaymentsortBy) => void;
+  currentSortColumn?: PaymentsortBy;
+  currentSortDirection?: SortDirection;
 };
 
 const columns = [
@@ -23,16 +25,38 @@ const columns = [
   { id: 'paymentMethod', label: 'Payment Method', sort: true }
 ];
 
-export const PaymentsTable = ({ loading, error, payments, handleSortChange }: Props) => {
+export const PaymentsTable = ({ 
+  loading, 
+  error, 
+  payments, 
+  handleSortChange,
+  currentSortColumn = 'createdAt',
+  currentSortDirection = 'desc'
+}: Props) => {
+  const handleColumnClick = (columnId: PaymentsortBy) => {
+    handleSortChange?.(columnId);
+  };
+
   return (
     <table className={s.table}>
       <thead>
         <tr>
           {columns.map((col) => (
-            <th key={col.id} onClick={col.sort ? () => handleSortChange?.(col.id as PaymentsortBy) : undefined}>
-              <div className={s.headerCell}>
-                {col.label}
-                {col.sort ? <Filter /> : null}
+            <th key={col.id}>
+              <div className={col.sort ? s.headerCell : s.noSortHeaderCell}>
+                {col.sort ? (
+                  <span 
+                    className={s.sortableLabel} 
+                    onClick={() => handleColumnClick(col.id as PaymentsortBy)}
+                  >
+                    {col.label}
+                    <Filter 
+                      sortDir={currentSortColumn === col.id ? currentSortDirection : null} 
+                    />
+                  </span>
+                ) : (
+                  <span>{col.label}</span>
+                )}
               </div>
             </th>
           ))}

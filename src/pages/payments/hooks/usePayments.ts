@@ -36,7 +36,7 @@ export const usePayments = () => {
       setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'));
     } else {
       setSortBy(column);
-      setSortDirection('desc');
+      setSortDirection('asc');
     }
   };
 
@@ -51,6 +51,8 @@ export const usePayments = () => {
     pageSize,
     currentPage,
     searchTerm,
+    sortBy,
+    sortDirection,
     handlePageSizeChange,
     setCurrentPage,
     handleSearchChange,

@@ -10,16 +10,38 @@
 }
 
 .headerCell {
-  display: inline-flex;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.noSortHeaderCell {
+  cursor: default;
+}
+
+.sortableLabel {
+  display: flex;
   align-items: center;
   gap: 6px;
   cursor: pointer;
+  width: 100%;
+  user-select: none;
+  transition: opacity 0.2s;
+  
+  &:hover {
+    opacity: 0.8;
+  }
 }
 
 .table th,
 .table td {
   padding: 12px 24px;
   text-align: left;
+}
+
+.table th {
+  font-weight: 600;
 }
 
 .table td:last-child {
