@@ -4,7 +4,7 @@ import Image from "next/image";
 import s from "@/pages/posts/ui/post/Post.module.scss";
 import NoAvatar from '../../../../../public/img/noAvatar.png';
 import {BlockIcon} from "public/icons/BlockIcon";
-import {ImagePost as GraphQLImagePost} from '@/gql/graphql';
+import {ImagePost as GraphQLImagePost, UserBan} from '@/gql/graphql';
 import {SliderPost} from "@/pages/posts/ui/slider/SliderPost";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
@@ -18,6 +18,7 @@ type PostProps = {
         userName: string;
         ownerId: number;
         createdAt: string;
+        userBan?: UserBan;
     };
 };
 

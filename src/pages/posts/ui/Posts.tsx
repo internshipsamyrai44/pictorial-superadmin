@@ -90,6 +90,7 @@ export const Posts = () => {
                                         'Unknown User',
                                     ownerId: post.ownerId,
                                     createdAt: post.createdAt,
+                                    userBan: post.userBan || undefined,
                                 }}
                             />
                         </div>
