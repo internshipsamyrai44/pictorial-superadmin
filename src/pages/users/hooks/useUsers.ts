@@ -16,7 +16,7 @@ export enum SortedDirectionEnum {
 }
 
 export const useUsers = () => {
-  const [pageSize, setPageSize] = useState('10');
+  const [pageSize, setPageSize] = useState('8');
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState<FilterOptions>(FilterOptions.ALL);
