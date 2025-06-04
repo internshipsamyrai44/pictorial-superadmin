@@ -1,1 +1,1 @@
-export * from './queries';
+export * from '@/entities/user/api/queries';
