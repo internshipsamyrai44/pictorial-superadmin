@@ -6,7 +6,9 @@ export const useUserInfo = (userId: string) => {
   const { data, loading } = useQuery<UserResponse>(GET_USER, {
     variables: {
       userId: Number(userId)
-    }
+    },
+    fetchPolicy: 'cache-and-network',
+    nextFetchPolicy: 'cache-first',
   });
   return { user: data?.getUser, loading };
 };

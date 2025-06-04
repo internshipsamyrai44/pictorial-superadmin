@@ -53,6 +53,10 @@ export const GET_USER = gql`
           url
         }
       }
+      userBan {
+        reason
+        createdAt
+      }
     }
   }
 `;

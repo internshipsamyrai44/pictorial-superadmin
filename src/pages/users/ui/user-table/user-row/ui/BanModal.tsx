@@ -2,8 +2,8 @@ import {BanUserResponse, BanUserVariables, UnbanUserResponse, UnbanUserVariables
 import {Alertpopup, Button, Input, Modal, Select, SelectItem} from '@internshipsamyrai44-ui-kit/components-lib';
 import {useRef, useState, useEffect} from 'react';
 import s from './BanModal.module.scss';
-import {useMutation} from '@apollo/client';
-import {BAN_USER, UNBAN_USER} from '@/entities/user/api';
+import {useMutation, useApolloClient} from '@apollo/client';
+import {BAN_USER, UNBAN_USER, GET_USERS, GET_USER} from '@/entities/user/api';
 
 type BanModalProps = {
     user: User;
@@ -18,6 +18,7 @@ export const BanModal = ({user, onClose}: BanModalProps) => {
     const inputValueRef = useRef('');
     const noButtonRef = useRef<HTMLButtonElement>(null);
     const yesButtonRef = useRef<HTMLButtonElement>(null);
+    const client = useApolloClient();
 
     useEffect(() => {
         if (noButtonRef.current) {
@@ -35,23 +36,68 @@ export const BanModal = ({user, onClose}: BanModalProps) => {
     }, [selectError]);
 
     const [banUser, {loading: banLoading, error: banError}] = useMutation<BanUserResponse, BanUserVariables>(BAN_USER, {
-        onCompleted: () => {
+        onCompleted: async (data) => {
+            if (data.banUser) {
+                try {
+                    // Вместо refetchQueries используем прямой запрос через client.query
+                    await client.query({
+                        query: GET_USER,
+                        variables: { userId: user.id },
+                        fetchPolicy: 'network-only' // Принудительно получаем данные из сети
+                    });
+                } catch (error) {
+                    console.error('Error fetching user data after ban:', error);
+                }
+            }
             onClose();
             setInput(false);
             setSelectError(false);
             setInputError(false);
             inputValueRef.current = '';
         },
-        refetchQueries: ['GetUsers']
+        // Этот запрос для обновления списка пользователей
+        refetchQueries: [{ 
+            query: GET_USERS, 
+            variables: { 
+                pageSize: 10, 
+                pageNumber: 1, 
+                sortBy: 'id', 
+                sortDirection: 'asc',
+                searchTerm: '',
+                statusFilter: 'ALL'
+            }
+        }]
     });
 
     const [unbanUser, {loading: unbanLoading, error: unbanError}] = useMutation<UnbanUserResponse, UnbanUserVariables>(
         UNBAN_USER,
         {
-            onCompleted: () => {
+            onCompleted: async (data) => {
+                if (data.unbanUser) {
+                    try {
+                        // То же самое для операции разбана
+                        await client.query({
+                            query: GET_USER,
+                            variables: { userId: user.id },
+                            fetchPolicy: 'network-only'
+                        });
+                    } catch (error) {
+                        console.error('Error fetching user data after unban:', error);
+                    }
+                }
                 onClose();
             },
-            refetchQueries: ['GetUsers']
+            refetchQueries: [{ 
+                query: GET_USERS, 
+                variables: { 
+                    pageSize: 10, 
+                    pageNumber: 1, 
+                    sortBy: 'id', 
+                    sortDirection: 'asc',
+                    searchTerm: '',
+                    statusFilter: 'ALL'
+                }
+            }]
         }
     );
 
@@ -104,11 +150,16 @@ export const BanModal = ({user, onClose}: BanModalProps) => {
         border: '1px solid #ff3b30'
     } : undefined;
 
+    // Безопасно получаем имя пользователя для отображения
+    const userDisplayName = user.profile?.firstName || user.profile?.lastName 
+        ? `${user.profile?.firstName || ''} ${user.profile?.lastName || ''}`.trim()
+        : user.userName;
+
     return (
         <>
             <Modal title={`User ${user.userBan ? 'un-ban' : 'ban'}`} onClose={onClose}>
                 <p className={s.text}>
-                    {`Are you sure you want to ${user.userBan ? 'unblock' : 'block'} this user, ${user.profile.firstName ?? ''} ${user.profile.lastName ?? user.userName}?`}
+                    {`Are you sure you want to ${user.userBan ? 'unblock' : 'block'} this user, ${userDisplayName}?`}
                 </p>
                 {!user.userBan && (
                     <div>

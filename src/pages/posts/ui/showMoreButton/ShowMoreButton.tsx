@@ -56,7 +56,7 @@ export const ShowMoreButton = ({maxLength, text}: Props) => {
                     className={s.button}
                     onClick={toggleReadMore}
                     aria-expanded={isExpanded}
-                    aria-controls="post-description"
+                    aria-controls="post-description" // нет такого id
                 >
                     {buttonText}
                 </button>

@@ -18,9 +18,12 @@ export const Posts = () => {
         retry,
     } = usePosts();
 
+    // Для бесконечной прокрутки
     const observerTarget = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        if (!observerTarget.current) return;
+
         const observer = new IntersectionObserver(
             entries => {
                 if (entries[0].isIntersecting && !loading) {
@@ -49,6 +52,8 @@ export const Posts = () => {
         } as React.ChangeEvent<HTMLInputElement>);
     };
 
+    const postsToRender = Array.isArray(posts) ? posts : [];
+
     return (
         <div className={s.container}>
             <Input
@@ -65,9 +70,18 @@ export const Posts = () => {
                 </div>
             )}
 
+            {postsToRender.length === 0 && !loading && !error && (
+                <div className={s.emptyState}>
+                    No posts found. Try changing your search criteria.
+                </div>
+            )}
+
             <div className={s.postList}>
-                {posts.map((post, idx) => {
-                    const isTrigger = idx === posts.length - 5;
+                {postsToRender.map((post, idx) => {
+                    if (!post) return null;
+
+                    const isTrigger = idx === postsToRender.length - 5;
+
                     return (
                         <div
                             key={post.id}
@@ -78,7 +92,7 @@ export const Posts = () => {
                                 item={{
                                     id: post.id,
                                     images: post.images || [],
-                                    description: post.description,
+                                    description: post.description || '',
                                     avatarOwner:
                                         post.postOwner?.avatars?.[0]?.url || '',
                                     userName:
@@ -89,8 +103,7 @@ export const Posts = () => {
                                             .trim() ||
                                         'Unknown User',
                                     ownerId: post.ownerId,
-                                    createdAt: post.createdAt,
-                                    userBan: post.userBan || undefined,
+                                    createdAt: post.createdAt || new Date().toISOString(),
                                 }}
                             />
                         </div>
